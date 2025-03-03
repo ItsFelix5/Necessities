@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "necessities",
+  "version": "${version}",
+  "name": "necessities",
+  "description": "Very important mod",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/necessities/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "necessities.Main"
+    ]
+  },
+  "mixins": [
+    "necessities.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
