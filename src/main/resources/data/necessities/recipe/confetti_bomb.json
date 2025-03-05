@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#0#",
+    "0X0",
+    "#0#"
+  ],
+  "key": {
+    "#": "minecraft:paper",
+    "X": "minecraft:gunpowder",
+    "0": [
+      "minecraft:white_dye",
+      "minecraft:gray_dye",
+      "minecraft:brown_dye",
+      "minecraft:orange_dye",
+      "minecraft:lime_dye",
+      "minecraft:cyan_dye",
+      "minecraft:blue_dye",
+      "minecraft:magenta_dye",
+      "minecraft:light_gray_dye",
+      "minecraft:black_dye",
+      "minecraft:red_dye",
+      "minecraft:yellow_dye",
+      "minecraft:green_dye",
+      "minecraft:light_blue_dye",
+      "minecraft:purple_dye",
+      "minecraft:pink_dye"
+    ]
+  },
+  "result": {
+    "id": "necessities:confetti_bomb",
+    "count": 16
+  }
+}

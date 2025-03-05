@@ -9,6 +9,7 @@
     "ServerPlayerEntityMixin"
   ],
   "client": [
+    "ClientPlayNetworkHandlerMixin",
     "LivingEntityRendererMixin",
     "LivingEntityRenderStateMixin"
   ],

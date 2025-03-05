@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#X#",
+    "000"
+  ],
+  "key": {
+    "#": "minecraft:gold_ingot",
+    "X": "minecraft:redstone",
+    "0": "#minecraft:slabs"
+  },
+  "result": {
+    "id": "necessities:bell",
+    "count": 1
+  }
+}

@@ -1,4 +1,13 @@
 {
-  "attribute.height": "Height",
-  "attribute.roll": "Roll"
+  "attribute.necessities.height": "Height",
+  "attribute.necessities.width": "Width",
+  "attribute.necessities.roll": "Roll",
+
+  "block.necessities.bell": "Service Bell",
+  "item.necessities.bell": "Service Bell",
+  "sound.necessities.ding": "Ding",
+
+  "item.necessities.tomato": "Tomato",
+  "item.necessities.confetti_bomb": "Confetti Bomb",
+  "sound.necessities.toot": "Party horn"
 }

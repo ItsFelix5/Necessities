@@ -10,13 +10,13 @@
   "icon": "assets/necessities/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "necessities.Main"
-    ]
+    "main": ["necessities.Main"],
+    "client": ["necessities.Client"]
   },
   "mixins": [
     "necessities.mixins.json"
   ],
+  "accessWidener": "necessities.accesswidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

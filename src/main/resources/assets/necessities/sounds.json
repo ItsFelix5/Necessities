@@ -1,0 +1,16 @@
+{
+  "ding": {
+    "subtitle": "sound.necessities.ding",
+    "sounds": [
+      "necessities:ding1",
+      "necessities:ding2",
+      "necessities:ding3",
+      "necessities:ding4",
+      "necessities:ding5"
+    ]
+  },
+  "toot": {
+    "subtitle": "sound.necessities.toot",
+    "sounds": ["necessities:toot"]
+  }
+}
