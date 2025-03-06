@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AnvilBlockMixin",
+    "EntityMixin",
     "LivingEntityMixin",
+    "PlayerEntityMixin",
     "ServerPlayerEntityMixin"
   ],
   "client": [

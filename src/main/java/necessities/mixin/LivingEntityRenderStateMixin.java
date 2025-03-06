@@ -1,6 +1,6 @@
 package necessities.mixin;
 
-import necessities.LivingEntityRenderStateExtension;
+import necessities.extensions.LivingEntityRenderStateExtension;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -12,32 +12,32 @@ public class LivingEntityRenderStateMixin implements LivingEntityRenderStateExte
     @Unique public float roll;
 
     @Override
-    public float getHeightMultiplier() {
+    public float necessities$getHeightMultiplier() {
         return heightMultiplier;
     }
 
     @Override
-    public void setHeightMultiplier(float heightMultiplier) {
+    public void necessities$setHeightMultiplier(float heightMultiplier) {
             this.heightMultiplier = heightMultiplier;
     }
 
     @Override
-    public float getWidthMultiplier() {
+    public float necessities$getWidthMultiplier() {
         return widthMultiplier;
     }
 
     @Override
-    public void setWidthMultiplier(float widthMultiplier) {
+    public void necessities$setWidthMultiplier(float widthMultiplier) {
         this.widthMultiplier = widthMultiplier;
     }
 
     @Override
-    public float getRoll() {
+    public float necessities$getRoll() {
         return roll;
     }
 
     @Override
-    public void setRoll(float roll) {
+    public void necessities$setRoll(float roll) {
         this.roll = roll;
     }
 }

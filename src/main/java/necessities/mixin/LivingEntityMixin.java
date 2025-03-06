@@ -8,16 +8,22 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
     @Shadow public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+
+    @Shadow public abstract @Nullable EntityAttributeInstance getAttributeInstance(RegistryEntry<EntityAttribute> attribute);
 
     @Inject(method = "createLivingAttributes", at = @At("TAIL"))
     private static void createLivingAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
@@ -36,5 +42,18 @@ public abstract class LivingEntityMixin {
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getScale()F"))
     private float modifyScale(LivingEntity instance, Operation<Float> original){
         return original.call(instance) * (float) getAttributeValue(Attributes.HEIGHT) * (float) getAttributeValue(Attributes.WIDTH);
+    }
+
+    @WrapOperation(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isOnGround()Z"))
+    private boolean isOnGround(LivingEntity instance, Operation<Boolean> original){
+        return original.call(instance) || instance instanceof PlayerEntity && getAttributeValue(Attributes.JUMPS) < getAttributeValue(Attributes.MAX_JUMPS);
+    }
+
+    @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;jump()V"))
+    private void jump(CallbackInfo ci) {
+        if((Object) this instanceof PlayerEntity) {
+            EntityAttributeInstance jumps = getAttributeInstance(Attributes.JUMPS);
+            jumps.setBaseValue(jumps.getBaseValue() + 1);
+        }
     }
 }
