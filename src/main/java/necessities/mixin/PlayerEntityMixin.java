@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityExtension {
     @Unique private int noClipTicks = 0;
     @Unique private LashingPotatoHookEntity potatoHook;
+    @Unique private Text name;
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -79,5 +81,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Override
     public void necessities$setLashingPotatoHook(LashingPotatoHookEntity hook) {
         potatoHook = hook;
+    }
+
+    @Override
+    public void necessities$setName(Text name) {
+        this.name = name;
+    }
+
+    @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
+    public void getDisplayName(CallbackInfoReturnable<Text> cir) {
+        if(name != null) cir.setReturnValue(name);
     }
 }

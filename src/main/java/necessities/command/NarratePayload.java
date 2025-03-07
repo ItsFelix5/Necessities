@@ -1,4 +1,4 @@
-package necessities.narrate;
+package necessities.command;
 
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;

@@ -6,7 +6,7 @@ All 3 of these get reset when you die.
 When you get hit by an anvil you become flat.
 Added a service bell
 Added a confetti bomb and throwable tomatoes
-Added /narrate
+Added /narrate and /identify
 Added the tiny potato from botania
 Added yippee / tbh
 Added lashing potato with entity support

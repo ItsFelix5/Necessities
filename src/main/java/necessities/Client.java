@@ -1,7 +1,7 @@
 package necessities;
 
+import necessities.command.NarratePayload;
 import necessities.entity.ModEntities;
-import necessities.narrate.NarratePayload;
 import necessities.particle.ModParticles;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
