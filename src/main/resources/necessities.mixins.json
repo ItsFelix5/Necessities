@@ -13,6 +13,7 @@
   ],
   "client": [
     "ClientPlayNetworkHandlerMixin",
+    "FishingRodCastPropertyMixin",
     "LivingEntityRendererMixin",
     "LivingEntityRenderStateMixin",
     "PlayerEntityModelMixin",

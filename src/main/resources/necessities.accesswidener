@@ -2,3 +2,4 @@ accessWidener v2 named
 
 accessible field net/minecraft/client/util/NarratorManager narrator Lcom/mojang/text2speech/Narrator;
 accessible field net/minecraft/client/particle/Particle stopped Z
+accessible field net/minecraft/client/render/entity/GuardianEntityRenderer LAYER Lnet/minecraft/client/render/RenderLayer;

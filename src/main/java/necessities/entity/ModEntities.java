@@ -18,6 +18,16 @@ public class ModEntities {
     public static final EntityType<TomatoEntity> TOMATO = register("tomato",
             EntityType.Builder.<TomatoEntity>create(TomatoEntity::new, SpawnGroup.MISC).makeFireImmune().dropsNothing().dimensions(0.25f, 0.25f));
 
+    public static final EntityType<LashingPotatoHookEntity> LASHING_POTATO_HOOK = register(
+            "lashing_potato_hook",
+            EntityType.Builder.<LashingPotatoHookEntity>create(LashingPotatoHookEntity::new, SpawnGroup.MISC)
+                    .disableSaving()
+                    .disableSummon()
+                    .dimensions(0.5F, 0.5F)
+                    .maxTrackingRange(4)
+                    .trackingTickInterval(5)
+    );
+
     public static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         return Registry.register(
                 Registries.ENTITY_TYPE,
@@ -29,6 +39,7 @@ public class ModEntities {
     public static void clientInit() {
         EntityRendererRegistry.register(ModEntities.CONFETTI_BOMB, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.TOMATO, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.LASHING_POTATO_HOOK, LashingPotatoHookEntityRenderer::new);
     }
 
     public static void init() {

@@ -22,5 +22,6 @@
   "item.necessities.yippee": "Yippee",
   "sound.necessities.yippee": "Yippee",
 
-  "item.necessities.grappling_hook": "Grappling Hook"
+  "entity.necessities.lashing_potato_hook": "Lashing Potato Hook",
+  "item.necessities.lashing_potato": "Lashing Potato"
 }

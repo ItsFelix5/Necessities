@@ -9,6 +9,7 @@ Added a confetti bomb and throwable tomatoes
 Added /narrate
 Added the tiny potato from botania
 Added yippee / tbh
+Added lashing potato with entity support
 
 More coming soon...
 

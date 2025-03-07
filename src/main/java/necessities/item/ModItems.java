@@ -27,6 +27,7 @@ public class ModItems {
             YippeeItem::new,
             new Item.Settings().useCooldown(0.2F)
     );
+    public static final Item LASHING_POTATO = register("lashing_potato", LashingPotatoItem::new, new Item.Settings().maxCount(1).maxDamage(100));
 
     private static Item register(String name, Function<Item.Settings, Item> factory, Item.Settings settings) {
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Main.id(name));
@@ -38,6 +39,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> {
             itemGroup.add(CONFETTI_BOMB);
             itemGroup.add(YIPPEE);
+            itemGroup.add(LASHING_POTATO);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> itemGroup.add(TOMATO));
     }
