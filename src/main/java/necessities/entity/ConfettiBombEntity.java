@@ -2,7 +2,7 @@ package necessities.entity;
 
 import necessities.Sounds;
 import necessities.item.ModItems;
-import necessities.particles.ModParticles;
+import necessities.particle.ModParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
@@ -60,9 +60,9 @@ public class ConfettiBombEntity extends ThrownItemEntity {
         Vec3d pos = getPos();
 
         for (ServerPlayerEntity player : world.getPlayers()) {
-            if (player.squaredDistanceTo(pos) < 256.0) {
-                Vec3d vec = player.getEyePos().subtract(pos);
-                double length = vec.length();
+            Vec3d vec = player.getEyePos().subtract(pos);
+            double length = vec.length();
+            if (length < 16) {
                 if (length != 0.0 && length <= 4) {
                     vec = vec.multiply((1.0 - length / 4) * 3 / length);
                     player.addVelocity(vec);

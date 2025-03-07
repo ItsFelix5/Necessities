@@ -1,7 +1,7 @@
 package necessities.mixin;
 
 import necessities.Attributes;
-import necessities.extensions.LivingEntityRenderStateExtension;
+import necessities.extension.LivingEntityRenderStateExtension;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.util.math.MatrixStack;

@@ -7,6 +7,8 @@ When you get hit by an anvil you become flat.
 Added a service bell
 Added a confetti bomb and throwable tomatoes
 Added /narrate
+Added the tiny potato from botania
+Added yippee / tbh
 
 More coming soon...
 

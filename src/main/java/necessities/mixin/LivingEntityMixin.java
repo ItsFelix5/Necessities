@@ -46,7 +46,7 @@ public abstract class LivingEntityMixin {
 
     @WrapOperation(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isOnGround()Z"))
     private boolean isOnGround(LivingEntity instance, Operation<Boolean> original){
-        return original.call(instance) || instance instanceof PlayerEntity && getAttributeValue(Attributes.JUMPS) < getAttributeValue(Attributes.MAX_JUMPS);
+        return original.call(instance) || instance instanceof PlayerEntity && getAttributeValue(Attributes.MAX_JUMPS) > 1 && getAttributeValue(Attributes.JUMPS) < getAttributeValue(Attributes.MAX_JUMPS);
     }
 
     @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;jump()V"))

@@ -11,6 +11,16 @@
   "sound.necessities.ding": "Ding",
 
   "item.necessities.tomato": "Tomato",
+
   "item.necessities.confetti_bomb": "Confetti Bomb",
-  "sound.necessities.toot": "Party horn"
+  "sound.necessities.toot": "Party horn",
+
+  "block.necessities.tiny_potato": "Tiny Potato",
+  "item.necessities.tiny_potato": "Tiny Potato",
+  "effect.necessities.vanilla": "Vanilla",
+
+  "item.necessities.yippee": "Yippee",
+  "sound.necessities.yippee": "Yippee",
+
+  "item.necessities.grappling_hook": "Grappling Hook"
 }

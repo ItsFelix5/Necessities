@@ -1,6 +1,8 @@
-package necessities.particles;
+package necessities.particle;
 
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.ParticleTextureSheet;
+import net.minecraft.client.particle.SpriteBillboardParticle;
+import net.minecraft.client.particle.SpriteProvider;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.world.ClientWorld;
@@ -13,8 +15,8 @@ public class ConfettiParticle extends SpriteBillboardParticle {
     private final float rotationXSpeed, rotationYSpeed, rotationZSpeed;
     private float offset = 0f;
 
-    protected ConfettiParticle(ClientWorld clientWorld, double x, double y, double z, SpriteProvider provider) {
-        super(clientWorld, x, y, z, clientWorld.random.nextGaussian() / 8f, Math.abs(clientWorld.random.nextGaussian() / 8f), clientWorld.random.nextGaussian() / 8f);
+    protected ConfettiParticle(ClientWorld clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider provider) {
+        super(clientWorld, x, y, z, velocityX, velocityY, velocityZ);
         setSprite(provider);
 
         this.rotationX = world.getRandom().nextFloat() * 360f;
@@ -43,6 +45,7 @@ public class ConfettiParticle extends SpriteBillboardParticle {
         Vector3f[] vec3fs = new Vector3f[]{new Vector3f(-1, -1, 0), new Vector3f(-1, 1, 0), new Vector3f(1, 1, 0), new Vector3f(1, -1, 0)};
         float size = this.getSize(tickDelta);
         if (!this.onGround) {
+            stopped = false;
             rotationX += rotationXSpeed;
             rotationY += rotationYSpeed;
             rotationZ += rotationZSpeed;

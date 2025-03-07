@@ -7,7 +7,7 @@
   "authors": [],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/necessities/icon.png",
+  "icon": "assets/necessities/textures/item/confetti_bomb.png",
   "environment": "*",
   "entrypoints": {
     "main": ["necessities.Main"],

@@ -22,6 +22,11 @@ public class ModItems {
             TomatoItem::new,
             new Item.Settings()
     );
+    public static final Item YIPPEE = register(
+            "yippee",
+            YippeeItem::new,
+            new Item.Settings().useCooldown(0.2F)
+    );
 
     private static Item register(String name, Function<Item.Settings, Item> factory, Item.Settings settings) {
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Main.id(name));
@@ -30,7 +35,10 @@ public class ModItems {
     }
 
     public static void init() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> itemGroup.add(CONFETTI_BOMB));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((itemGroup) -> {
+            itemGroup.add(CONFETTI_BOMB);
+            itemGroup.add(YIPPEE);
+        });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> itemGroup.add(TOMATO));
     }
 }

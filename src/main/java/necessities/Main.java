@@ -4,7 +4,7 @@ import necessities.block.ModBlocks;
 import necessities.entity.ModEntities;
 import necessities.item.ModItems;
 import necessities.narrate.NarrateCommand;
-import necessities.particles.ModParticles;
+import necessities.particle.ModParticles;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.util.Identifier;

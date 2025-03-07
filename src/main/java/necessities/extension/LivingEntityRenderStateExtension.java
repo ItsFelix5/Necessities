@@ -1,4 +1,4 @@
-package necessities.extensions;
+package necessities.extension;
 
 public interface LivingEntityRenderStateExtension {
     float necessities$getHeightMultiplier();

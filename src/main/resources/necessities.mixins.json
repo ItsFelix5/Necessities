@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AnvilBlockMixin",
+    "ArmorSlotMixin",
     "EntityMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
@@ -13,7 +14,10 @@
   "client": [
     "ClientPlayNetworkHandlerMixin",
     "LivingEntityRendererMixin",
-    "LivingEntityRenderStateMixin"
+    "LivingEntityRenderStateMixin",
+    "PlayerEntityModelMixin",
+    "PlayerEntityRendererMixin",
+    "PlayerEntityRenderStateMixin"
   ],
   "injectors": {
     "defaultRequire": 1

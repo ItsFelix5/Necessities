@@ -12,5 +12,13 @@
   "toot": {
     "subtitle": "sound.necessities.toot",
     "sounds": ["necessities:toot"]
+  },
+  "yippee": {
+    "subtitle": "sound.necessities.yippee",
+    "sounds": ["necessities:yippee"]
+  },
+  "yippee2": {
+    "subtitle": "sound.necessities.yippee",
+    "sounds": ["necessities:yippee2"]
   }
 }

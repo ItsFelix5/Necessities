@@ -1,4 +1,4 @@
-package necessities.particles;
+package necessities.particle;
 
 import necessities.Main;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -12,7 +12,7 @@ public class ModParticles {
 
     public static void clientInit() {
         ParticleFactoryRegistry.getInstance().register(CONFETTI, provider->(parameters, world, x, y, z, velocityX, velocityY, velocityZ) ->
-                new ConfettiParticle(world, x, y, z, provider));
+                new ConfettiParticle(world, x, y, z, velocityX, velocityY, velocityZ, provider));
     }
 
     public static void init() {

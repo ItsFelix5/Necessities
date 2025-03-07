@@ -1,6 +1,6 @@
 package necessities.mixin;
 
-import necessities.extensions.LivingEntityRenderStateExtension;
+import necessities.extension.LivingEntityRenderStateExtension;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

@@ -1,6 +1,7 @@
 package necessities.block;
 
 import necessities.Sounds;
+import necessities.extension.PlayerEntityExtension;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -16,6 +17,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
@@ -31,12 +33,12 @@ public class BellBlock extends Block {
 
     public BellBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(Properties.POWERED, false));
+        setDefaultState(getDefaultState().with(Properties.POWER, 0));
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.POWERED);
+        builder.add(Properties.POWER);
     }
 
     @Override
@@ -49,27 +51,33 @@ public class BellBlock extends Block {
         return SHAPE;
     }
 
-    public void press(BlockState state, World world, BlockPos pos, @Nullable Entity player){
-        if(!world.isClient) {
-            world.playSound(null, pos, Sounds.DING, SoundCategory.BLOCKS, 1.0F, 1.1F);
-            world.setBlockState(pos, state.with(Properties.POWERED, true), Block.NOTIFY_ALL);
-            for (Direction d:DIRECTIONS) world.updateNeighborsExcept(pos.offset(d), this, d.getOpposite(), null);
-            world.scheduleBlockTick(pos, this, 4);
-            world.emitGameEvent(player, GameEvent.BLOCK_ACTIVATE, pos);
-        }
+    public void press(BlockState state, World world, BlockPos pos, @Nullable Entity presser){
+        if(world.isClient || state.get(Properties.POWER) == 15) return;
+        world.emitGameEvent(presser, GameEvent.BLOCK_ACTIVATE, pos);
+        world.setBlockState(pos, state.with(Properties.POWER, state.get(Properties.POWER) + 1), Block.NOTIFY_ALL);
+        world.playSound(null, pos, Sounds.DING, SoundCategory.BLOCKS, 1.0F, 1.1F);
+        for (Direction d:DIRECTIONS) world.updateNeighborsExcept(pos.offset(d), this, d.getOpposite(), null);
+        world.scheduleBlockTick(pos, this, 8);
     }
 
     @Override
     protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if(state.get(Properties.POWERED)) {
-            world.setBlockState(pos, state.with(Properties.POWERED, false), Block.NOTIFY_ALL);
+        int power = state.get(Properties.POWER);
+        if(power > 0) {
+            world.setBlockState(pos, state.with(Properties.POWER, power - 1), Block.NOTIFY_ALL);
             for (Direction d:DIRECTIONS) world.updateNeighborsExcept(pos.offset(d), this, d.getOpposite(), null);
+            if(power > 1) world.scheduleBlockTick(pos, this, 8);
         }
     }
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        press(state, world, pos, player);
+        if(state.get(Properties.POWER) == 15) {
+            ((PlayerEntityExtension) player).necessities$setNoClipTicks(80);
+            Vec3d vec = player.getEyePos().subtract(Vec3d.of(pos));
+            double size = (1.0 - vec.length() / 6) * 15 / vec.length();
+            player.addVelocity(vec.multiply(size * 3, size, size * 3));
+        } else press(state, world, pos, player);
         return ActionResult.SUCCESS;
     }
 
@@ -86,12 +94,12 @@ public class BellBlock extends Block {
 
     @Override
     protected int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return state.get(Properties.POWERED)? 15 : 0;
+        return state.get(Properties.POWER) > 0? 15 : 0;
     }
 
     @Override
     protected int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return state.get(Properties.POWERED) ? 15 : 0;
+        return state.get(Properties.POWER) > 0? 15 : 0;
     }
 
     @Override
