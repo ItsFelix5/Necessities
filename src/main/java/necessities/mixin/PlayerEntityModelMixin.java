@@ -63,5 +63,6 @@ public class PlayerEntityModelMixin extends BipedEntityModel<PlayerEntityRenderS
     @Inject(method = "setAngles(Lnet/minecraft/client/render/entity/state/PlayerEntityRenderState;)V", at = @At("TAIL"))
     private void setAngles(PlayerEntityRenderState state, CallbackInfo ci) {
         AnimationHelper.animate(this, YIPPEE, ((PlayerEntityRenderStateExtension) state).necessities$getYippeeAnimationTime(0) * 50L, 1.0F, new Vector3f());
+        this.leftArm.visible &= ((PlayerEntityRenderStateExtension) state).necessities$getOffhand();
     }
 }

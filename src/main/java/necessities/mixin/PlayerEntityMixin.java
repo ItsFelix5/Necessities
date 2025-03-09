@@ -1,12 +1,14 @@
 package necessities.mixin;
 
 import necessities.Attributes;
+import necessities.Main;
 import necessities.entity.LashingPotatoHookEntity;
 import necessities.extension.PlayerEntityExtension;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
@@ -91,5 +93,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
     public void getDisplayName(CallbackInfoReturnable<Text> cir) {
         if(name != null) cir.setReturnValue(name);
+    }
+
+    @Inject(method = "initDataTracker", at = @At("TAIL"))
+    private void initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
+        builder.add(Main.OFFHAND, true);
     }
 }

@@ -1,5 +1,6 @@
 package necessities.mixin;
 
+import necessities.Main;
 import necessities.extension.PlayerEntityRenderStateExtension;
 import necessities.item.ModItems;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -17,5 +18,6 @@ public class PlayerEntityRendererMixin {
         boolean yippee = player.isSneaking() && player.getMainHandStack().isOf(ModItems.YIPPEE);
         ((PlayerEntityRenderStateExtension) state).necessities$getYippeeAnimationTime(yippee?1:-1);
         state.isInSneakingPose &= !yippee;
+        ((PlayerEntityRenderStateExtension) state).necessities$setOffhand(player.getDataTracker().get(Main.OFFHAND));
     }
 }
