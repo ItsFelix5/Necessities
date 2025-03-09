@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X0",
+    " #X",
+    "#  "
+  ],
+  "key": {
+    "#": "minecraft:stick",
+    "X": "minecraft:iron_ingot",
+    "0": "minecraft:netherite_axe"
+  },
+  "result": {
+    "id": "necessities:axe_of_dismembering",
+    "count": 1
+  }
+}

@@ -1,6 +1,7 @@
 package necessities.entity;
 
 import necessities.extension.PlayerEntityExtension;
+import necessities.item.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
@@ -53,7 +54,7 @@ public class LashingPotatoHookEntity extends ProjectileEntity {
 	public void tick() {
 		super.tick();
 		PlayerEntity playerEntity = this.getOwner();
-		if (this.getWorld().isClient() || !playerEntity.isRemoved() && playerEntity.isAlive()) {
+		if (this.getWorld().isClient() || !playerEntity.isRemoved() && playerEntity.isAlive() && playerEntity.getMainHandStack().isOf(ModItems.LASHING_POTATO)) {
 			HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
 			if (hitResult.getType() != HitResult.Type.MISS) {
 				this.onCollision(hitResult);

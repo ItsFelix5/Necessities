@@ -50,6 +50,29 @@ public class ModItems {
                     )
                     .build())
     );
+    public static final Item BAT = register(
+            "bat",
+            Item::new,
+            new Item.Settings()
+                    .maxCount(1)
+                    .attributeModifiers(AttributeModifiersComponent.builder()
+                            .add(
+                                    EntityAttributes.ATTACK_DAMAGE,
+                                    new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 2.0F, EntityAttributeModifier.Operation.ADD_VALUE),
+                                    AttributeModifierSlot.MAINHAND
+                            )
+                            .add(
+                                    EntityAttributes.ATTACK_SPEED,
+                                    new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, 1, EntityAttributeModifier.Operation.ADD_VALUE),
+                                    AttributeModifierSlot.MAINHAND
+                            )
+                            .add(
+                                    EntityAttributes.ENTITY_INTERACTION_RANGE,
+                                    new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, 6, EntityAttributeModifier.Operation.ADD_VALUE),
+                                    AttributeModifierSlot.MAINHAND
+                            )
+                            .build())
+    );
 
     private static Item register(String name, Function<Item.Settings, Item> factory, Item.Settings settings) {
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Main.id(name));
@@ -63,7 +86,10 @@ public class ModItems {
             itemGroup.add(YIPPEE);
             itemGroup.add(LASHING_POTATO);
         });
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((itemGroup) -> itemGroup.add(AXE_OF_DISMEMBERING));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register((itemGroup) -> {
+            itemGroup.add(AXE_OF_DISMEMBERING);
+            itemGroup.add(BAT);
+        });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> itemGroup.add(TOMATO));
     }
 }

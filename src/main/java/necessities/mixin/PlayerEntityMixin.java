@@ -1,19 +1,27 @@
 package necessities.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import necessities.Attributes;
 import necessities.Main;
 import necessities.entity.LashingPotatoHookEntity;
 import necessities.extension.PlayerEntityExtension;
+import necessities.item.ModItems;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,6 +31,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEntityExtension {
+    @Shadow @NotNull public abstract ItemStack getWeaponStack();
+
     @Unique private int noClipTicks = 0;
     @Unique private LashingPotatoHookEntity potatoHook;
     @Unique private Text name;
@@ -98,5 +108,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     private void initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
         builder.add(Main.OFFHAND, true);
+    }
+
+    @WrapOperation(method = "attack", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerEntity;getKnockbackAgainst(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;)F"))
+    private float getKnockbackAgainst(PlayerEntity instance, Entity entity, DamageSource damageSource, Operation<Float> original) {
+        return original.call(instance, entity, damageSource) + (getWeaponStack().isOf(ModItems.BAT)? (float) Math.pow(getVelocity().length() + entity.getVelocity().length(), 2) : 0f);
     }
 }

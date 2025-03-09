@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "X",
+    "#"
+  ],
+  "key": {
+    "#": "minecraft:stick",
+    "X": "#minecraft:slabs"
+  },
+  "result": {
+    "id": "necessities:bat",
+    "count": 1
+  }
+}
