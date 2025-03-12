@@ -13,10 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(targets = "net.minecraft.screen.slot.ArmorSlot")
 public class ArmorSlotMixin {
-    @Shadow @Final private EquipmentSlot equipmentSlot;
+    @Shadow
+    @Final
+    private EquipmentSlot equipmentSlot;
 
     @Inject(method = "canInsert", at = @At("HEAD"), cancellable = true)
     private void canInsert(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if(stack.isOf(ModBlocks.TINY_POTATO.asItem()) || stack.isOf(ModItems.YIPPEE) && equipmentSlot == EquipmentSlot.HEAD) cir.setReturnValue(true);
+        if (stack.isOf(ModBlocks.TINY_POTATO.asItem()) || stack.isOf(ModItems.YIPPEE) && equipmentSlot == EquipmentSlot.HEAD) cir.setReturnValue(true);
     }
 }

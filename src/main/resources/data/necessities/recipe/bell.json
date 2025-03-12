@@ -6,9 +6,15 @@
     "000"
   ],
   "key": {
-    "#": "minecraft:gold_ingot",
-    "X": "minecraft:redstone",
-    "0": "#minecraft:slabs"
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+    "X": {
+      "item": "minecraft:redstone"
+    },
+    "0": {
+      "tag": "minecraft:slabs"
+    }
   },
   "result": {
     "id": "necessities:bell",

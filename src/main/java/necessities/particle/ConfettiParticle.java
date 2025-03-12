@@ -11,8 +11,8 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 
 public class ConfettiParticle extends SpriteBillboardParticle {
-    private float rotationX, rotationY, rotationZ;
     private final float rotationXSpeed, rotationYSpeed, rotationZSpeed;
+    private float rotationX, rotationY, rotationZ;
     private float offset = 0f;
 
     protected ConfettiParticle(ClientWorld clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider provider) {
@@ -40,7 +40,7 @@ public class ConfettiParticle extends SpriteBillboardParticle {
     }
 
     @Override
-    public void render(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
+    public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
         Vec3d cameraPos = camera.getPos();
         Vector3f[] vec3fs = new Vector3f[]{new Vector3f(-1, -1, 0), new Vector3f(-1, 1, 0), new Vector3f(1, 1, 0), new Vector3f(1, -1, 0)};
         float size = this.getSize(tickDelta);
@@ -49,7 +49,7 @@ public class ConfettiParticle extends SpriteBillboardParticle {
             rotationX += rotationXSpeed;
             rotationY += rotationYSpeed;
             rotationZ += rotationZSpeed;
-        } else if(offset == 0f) {
+        } else if (offset == 0f) {
             rotationX = 90f;
             rotationY = 0;
             offset = world.getRandom().nextFloat() / 100f + 0.001f;

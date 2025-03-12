@@ -6,9 +6,15 @@
     "#  "
   ],
   "key": {
-    "#": "minecraft:string",
-    "X": "minecraft:poisonous_potato",
-    "O": "minecraft:slime_ball"
+    "#": {
+      "item": "minecraft:string"
+    },
+    "X": {
+      "item": "minecraft:poisonous_potato"
+    },
+    "O": {
+      "item": "minecraft:slime_ball"
+    }
   },
   "result": {
     "id": "necessities:lashing_potato",

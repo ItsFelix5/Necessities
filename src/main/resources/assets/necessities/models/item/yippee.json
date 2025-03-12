@@ -2,5 +2,13 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "necessities:item/yippee"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "necessities:on_head": 1
+      },
+      "model": "necessities:block/yippee_head"
+    }
+  ]
 }

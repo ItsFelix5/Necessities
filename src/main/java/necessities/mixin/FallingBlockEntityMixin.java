@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(FallingBlockEntity.class)
-public class AnvilBlockMixin {
-    @WrapOperation(method = "method_32879", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;serverDamage(Lnet/minecraft/entity/damage/DamageSource;F)V"))
-    private static void serverDamage(Entity instance, DamageSource source, float amount, Operation<Void> original) {
-        original.call(instance, source, amount);
-        if(source.getTypeRegistryEntry().matchesKey(DamageTypes.FALLING_ANVIL) && instance instanceof LivingEntity) {
-            EntityAttributeInstance attribute = ((LivingEntity) instance).getAttributeInstance(Attributes.HEIGHT);
+public class FallingBlockEntityMixin {
+    @WrapOperation(method = "method_32879", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
+    private static boolean damage(Entity instance, DamageSource source, float amount, Operation<Boolean> original) {
+        if (source.getTypeRegistryEntry().matchesKey(DamageTypes.FALLING_ANVIL) && instance instanceof LivingEntity living) {
+            EntityAttributeInstance attribute = living.getAttributeInstance(Attributes.HEIGHT);
             attribute.setBaseValue(attribute.getBaseValue() - amount / 40);
         }
+        return original.call(instance, source, amount);
     }
 }

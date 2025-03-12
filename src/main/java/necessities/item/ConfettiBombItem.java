@@ -6,12 +6,11 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ProjectileItem;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
@@ -22,7 +21,7 @@ public class ConfettiBombItem extends Item implements ProjectileItem {
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         world.playSound(
                 null,
@@ -35,16 +34,21 @@ public class ConfettiBombItem extends Item implements ProjectileItem {
                 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F)
         );
         if (!world.isClient) {
-            ProjectileEntity.spawnWithVelocity(ConfettiBombEntity::new, (ServerWorld) world, itemStack, user, 0.0F, 0.75f, 1.0F);
+            ConfettiBombEntity entity = new ConfettiBombEntity(world, user);
+            entity.setItem(itemStack);
+            entity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, 1F, .5F);
+            world.spawnEntity(entity);
         }
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
         itemStack.decrementUnlessCreative(1, user);
-        return ActionResult.SUCCESS;
+        return TypedActionResult.success(itemStack);
     }
 
     @Override
     public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
-        return new ConfettiBombEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+        ConfettiBombEntity entity = new ConfettiBombEntity(world, pos.getX(), pos.getY(), pos.getZ());
+        entity.setItem(stack);
+        return entity;
     }
 }

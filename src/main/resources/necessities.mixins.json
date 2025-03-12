@@ -4,22 +4,18 @@
   "package": "necessities.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "AnvilBlockMixin",
     "ArmorSlotMixin",
     "EntityMixin",
+    "FallingBlockEntityMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "PlayerInventoryMixin",
     "ServerPlayerEntityMixin"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin",
-    "FishingRodCastPropertyMixin",
+    "ExplosionMixin",
     "LivingEntityRendererMixin",
-    "LivingEntityRenderStateMixin",
-    "PlayerEntityModelMixin",
-    "PlayerEntityRendererMixin",
-    "PlayerEntityRenderStateMixin"
+    "PlayerEntityModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

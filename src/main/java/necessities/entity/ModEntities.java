@@ -8,15 +8,13 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 
 public class ModEntities {
     public static final EntityType<ConfettiBombEntity> CONFETTI_BOMB = register("confetti_bomb",
-            EntityType.Builder.<ConfettiBombEntity>create(ConfettiBombEntity::new, SpawnGroup.MISC).makeFireImmune().dropsNothing().dimensions(0.25f, 0.25f));
+            EntityType.Builder.<ConfettiBombEntity>create(ConfettiBombEntity::new, SpawnGroup.MISC).makeFireImmune().dimensions(0.25f, 0.25f));
 
     public static final EntityType<TomatoEntity> TOMATO = register("tomato",
-            EntityType.Builder.<TomatoEntity>create(TomatoEntity::new, SpawnGroup.MISC).makeFireImmune().dropsNothing().dimensions(0.25f, 0.25f));
+            EntityType.Builder.<TomatoEntity>create(TomatoEntity::new, SpawnGroup.MISC).makeFireImmune().dimensions(0.25f, 0.25f));
 
     public static final EntityType<LashingPotatoHookEntity> LASHING_POTATO_HOOK = register(
             "lashing_potato_hook",
@@ -32,7 +30,7 @@ public class ModEntities {
         return Registry.register(
                 Registries.ENTITY_TYPE,
                 Main.id(name),
-                builder.build(RegistryKey.of(RegistryKeys.ENTITY_TYPE, Main.id(name)))
+                builder.build(name)
         );
     }
 

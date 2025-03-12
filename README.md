@@ -1,23 +1,24 @@
-## Essential mod that adds high quality serious stuff!
-Made for blanketcon '25!
+# Essential mod that adds high quality serious stuff!
+![Made for BlanketCon '25](https://raw.githubusercontent.com/worldwidepixel/badges/refs/heads/main/bc25/made_for/cozy.svg)
 
-### Resizing players
+## Resizing players
 This mod adds `width` and `height` attributes for fine control over the players size with commands or items.
+(There also is `roll` to rotate the player.)
 These attributes will be reset on death.
 If you get hit by an anvil your height will be decreased.
 
-### Multi Jumping
+## Multi Jumping
 There also is a new `max_jumps` attribute to allow players to jump multiple times in the air.
 This is not currently accessible in survival :(
 Any number above 99 is infinite jumps.
 
-### Blocks
+## Blocks
 Added a service bell and the tiny potato from botania.
 Whatever you do, DO NOT SPAM THE BELL.
 The tater can also be placed on your head! 
 The crafting recipes can be viewed in the gallery tab.
 
-### Throwables
+## Throwables
 Added a confetti bomb and throwable tomatoes.
 The confetti bomb as the name suggests explodes in a cloud of confetti when it touches a block or after 1.5 seconds and deals some knockback to players 
 Tomatoes can be obtained from villagers and again the confetti bomb recipe is in the gallery.

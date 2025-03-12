@@ -8,7 +8,6 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
@@ -23,10 +22,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.explosion.Explosion;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.BiConsumer;
 
 public class BellBlock extends Block {
     private static final VoxelShape SHAPE = Block.createCuboidShape(3.0, 0.0, 3.0, 13.0, 5, 13.0);
@@ -51,28 +47,28 @@ public class BellBlock extends Block {
         return SHAPE;
     }
 
-    public void press(BlockState state, World world, BlockPos pos, @Nullable Entity presser){
-        if(world.isClient || state.get(Properties.POWER) == 15) return;
+    public void press(BlockState state, World world, BlockPos pos, @Nullable Entity presser) {
+        if (world.isClient || state.get(Properties.POWER) == 15) return;
         world.emitGameEvent(presser, GameEvent.BLOCK_ACTIVATE, pos);
         world.setBlockState(pos, state.with(Properties.POWER, state.get(Properties.POWER) + 1), Block.NOTIFY_ALL);
         world.playSound(null, pos, Sounds.DING, SoundCategory.BLOCKS, 1.0F, 1.1F);
-        for (Direction d:DIRECTIONS) world.updateNeighborsExcept(pos.offset(d), this, d.getOpposite(), null);
+        for (Direction d : DIRECTIONS) world.updateNeighborsExcept(pos.offset(d), this, d.getOpposite());
         world.scheduleBlockTick(pos, this, 8);
     }
 
     @Override
     protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int power = state.get(Properties.POWER);
-        if(power > 0) {
+        if (power > 0) {
             world.setBlockState(pos, state.with(Properties.POWER, power - 1), Block.NOTIFY_ALL);
-            for (Direction d:DIRECTIONS) world.updateNeighborsExcept(pos.offset(d), this, d.getOpposite(), null);
-            if(power > 1) world.scheduleBlockTick(pos, this, 8);
+            for (Direction d : DIRECTIONS) world.updateNeighborsExcept(pos.offset(d), this, d.getOpposite());
+            if (power > 1) world.scheduleBlockTick(pos, this, 8);
         }
     }
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if(state.get(Properties.POWER) == 15) {
+        if (state.get(Properties.POWER) == 15) {
             ((PlayerEntityExtension) player).necessities$setNoClipTicks(80);
             Vec3d vec = player.getEyePos().subtract(Vec3d.of(pos));
             double size = (1.0 - vec.length() / 6) * 15 / vec.length();
@@ -87,19 +83,13 @@ public class BellBlock extends Block {
     }
 
     @Override
-    protected void onExploded(BlockState state, ServerWorld world, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> stackMerger) {
-        super.onExploded(state, world, pos, explosion, stackMerger);
-        press(state, world, pos, explosion.getCausingEntity());
-    }
-
-    @Override
     protected int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return state.get(Properties.POWER) > 0? 15 : 0;
+        return state.get(Properties.POWER) > 0 ? 15 : 0;
     }
 
     @Override
     protected int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        return state.get(Properties.POWER) > 0? 15 : 0;
+        return state.get(Properties.POWER) > 0 ? 15 : 0;
     }
 
     @Override

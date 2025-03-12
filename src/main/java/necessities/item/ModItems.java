@@ -1,11 +1,15 @@
 package necessities.item;
 
 import necessities.Main;
+import necessities.extension.PlayerEntityExtension;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -29,7 +33,7 @@ public class ModItems {
     public static final Item YIPPEE = register(
             "yippee",
             YippeeItem::new,
-            new Item.Settings().useCooldown(0.2F));
+            new Item.Settings());
 
     public static final Item LASHING_POTATO = register("lashing_potato", LashingPotatoItem::new, new Item.Settings().maxCount(1));
     public static final Item AXE_OF_DISMEMBERING = register(
@@ -38,17 +42,17 @@ public class ModItems {
             new Item.Settings()
                     .maxCount(1)
                     .attributeModifiers(AttributeModifiersComponent.builder()
-                    .add(
-                            EntityAttributes.ATTACK_DAMAGE,
-                            new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 7.0F, EntityAttributeModifier.Operation.ADD_VALUE),
-                            AttributeModifierSlot.MAINHAND
-                    )
-                    .add(
-                            EntityAttributes.ATTACK_SPEED,
-                            new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -3.8, EntityAttributeModifier.Operation.ADD_VALUE),
-                            AttributeModifierSlot.MAINHAND
-                    )
-                    .build())
+                            .add(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE,
+                                    new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, 8, EntityAttributeModifier.Operation.ADD_VALUE),
+                                    AttributeModifierSlot.MAINHAND
+                            )
+                            .add(
+                                    EntityAttributes.GENERIC_ATTACK_SPEED,
+                                    new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, -3.8, EntityAttributeModifier.Operation.ADD_VALUE),
+                                    AttributeModifierSlot.MAINHAND
+                            )
+                            .build())
     );
     public static final Item BAT = register(
             "bat",
@@ -57,17 +61,7 @@ public class ModItems {
                     .maxCount(1)
                     .attributeModifiers(AttributeModifiersComponent.builder()
                             .add(
-                                    EntityAttributes.ATTACK_DAMAGE,
-                                    new EntityAttributeModifier(Item.BASE_ATTACK_DAMAGE_MODIFIER_ID, 2.0F, EntityAttributeModifier.Operation.ADD_VALUE),
-                                    AttributeModifierSlot.MAINHAND
-                            )
-                            .add(
-                                    EntityAttributes.ATTACK_SPEED,
-                                    new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, 1, EntityAttributeModifier.Operation.ADD_VALUE),
-                                    AttributeModifierSlot.MAINHAND
-                            )
-                            .add(
-                                    EntityAttributes.ENTITY_INTERACTION_RANGE,
+                                    EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE,
                                     new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, 6, EntityAttributeModifier.Operation.ADD_VALUE),
                                     AttributeModifierSlot.MAINHAND
                             )
@@ -76,7 +70,7 @@ public class ModItems {
 
     private static Item register(String name, Function<Item.Settings, Item> factory, Item.Settings settings) {
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Main.id(name));
-        Item blockItem = factory.apply(settings.registryKey(itemKey));
+        Item blockItem = factory.apply(settings);
         return Registry.register(Registries.ITEM, itemKey, blockItem);
     }
 
@@ -91,5 +85,13 @@ public class ModItems {
             itemGroup.add(BAT);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> itemGroup.add(TOMATO));
+
+        ModelPredicateProviderRegistry.register(YIPPEE, Main.id("on_head"),
+                (stack, world, entity, seed) -> (entity != null && entity.getEquippedStack(EquipmentSlot.HEAD) == stack) ? 1.0F : 0.0F);
+
+        ModelPredicateProviderRegistry.register(LASHING_POTATO, Main.id("grappling"),
+                (stack, world, entity, seed) -> (entity instanceof PlayerEntity player && ((PlayerEntityExtension) player).necessities$getLashingPotatoHook() != null
+                        && player.getMainHandStack() == stack) ? 1.0F : 0.0F);
+
     }
 }

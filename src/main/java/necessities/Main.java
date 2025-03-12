@@ -35,6 +35,6 @@ public class Main implements ModInitializer {
         ModCommands.init();
 
         PayloadTypeRegistry.playS2C().register(NarratePayload.ID, NarratePayload.CODEC);
-        TradeOfferHelper.registerVillagerOffers(VillagerProfession.FARMER, 3, (list)->list.add(new TradeOffers.SellItemFactory(ModItems.TOMATO, 2, 16, 4)));
+        TradeOfferHelper.registerVillagerOffers(VillagerProfession.FARMER, 3, (list) -> list.add(new TradeOffers.SellItemFactory(ModItems.TOMATO, 2, 16, 4)));
     }
 }

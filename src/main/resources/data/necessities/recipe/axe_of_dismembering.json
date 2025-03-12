@@ -6,9 +6,15 @@
     "#  "
   ],
   "key": {
-    "#": "minecraft:stick",
-    "X": "minecraft:iron_ingot",
-    "0": "minecraft:netherite_axe"
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "0": {
+      "item": "minecraft:netherite_axe"
+    }
   },
   "result": {
     "id": "necessities:axe_of_dismembering",

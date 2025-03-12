@@ -20,12 +20,12 @@ public class TomatoEntity extends ThrownItemEntity {
         super(entityType, world);
     }
 
-    public TomatoEntity(World world, LivingEntity owner, ItemStack stack) {
-        super(ModEntities.TOMATO, owner, world, stack);
+    public TomatoEntity(World world, LivingEntity owner) {
+        super(ModEntities.TOMATO, owner, world);
     }
 
-    public TomatoEntity(World world, double x, double y, double z, ItemStack stack) {
-        super(ModEntities.TOMATO, x, y, z, world, stack);
+    public TomatoEntity(World world, double x, double y, double z) {
+        super(ModEntities.TOMATO, x, y, z, world);
     }
 
     @Override
@@ -37,8 +37,8 @@ public class TomatoEntity extends ThrownItemEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         if (!(getWorld() instanceof ServerWorld world)) return;
-        entityHitResult.getEntity().damage(world, this.getDamageSources().thrown(this, this.getOwner()), 0.0F);
-        world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(getDefaultItem())), true, true, getX(), getY(), getZ(), 24, 0, 0, 0, 0.1);
+        entityHitResult.getEntity().damage(this.getDamageSources().thrown(this, this.getOwner()), 0.0F);
+        world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(getDefaultItem())), getX(), getY(), getZ(), 24, 0, 0, 0, 0.1);
         discard();
     }
 
@@ -46,7 +46,7 @@ public class TomatoEntity extends ThrownItemEntity {
     protected void onCollision(HitResult hitResult) {
         super.onCollision(hitResult);
         if (!(getWorld() instanceof ServerWorld world)) return;
-        world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(getDefaultItem())), true, true, getX(), getY(), getZ(), 24, 0, 0, 0, 0.1);
+        world.spawnParticles(new ItemStackParticleEffect(ParticleTypes.ITEM, new ItemStack(getDefaultItem())), getX(), getY(), getZ(), 24, 0, 0, 0, 0.1);
         discard();
     }
 

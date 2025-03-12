@@ -32,16 +32,19 @@ public abstract class LivingEntityMixin extends Entity {
         super(type, world);
     }
 
-    @Shadow public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
-
-    @Shadow public abstract @Nullable EntityAttributeInstance getAttributeInstance(RegistryEntry<EntityAttribute> attribute);
-
-    @Shadow public abstract void remove(Entity.RemovalReason reason);
-
     @Inject(method = "createLivingAttributes", at = @At("TAIL"))
     private static void createLivingAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
         cir.getReturnValue().add(Attributes.HEIGHT).add(Attributes.WIDTH).add(Attributes.ROLL);
     }
+
+    @Shadow
+    public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+
+    @Shadow
+    public abstract @Nullable EntityAttributeInstance getAttributeInstance(RegistryEntry<EntityAttribute> attribute);
+
+    @Shadow
+    public abstract void remove(Entity.RemovalReason reason);
 
     @ModifyReturnValue(method = "getDimensions", at = @At("RETURN"))
     private EntityDimensions getDimensions(EntityDimensions original) {
@@ -53,29 +56,29 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getScale()F"))
-    private float modifyScale(LivingEntity instance, Operation<Float> original){
+    private float modifyScale(LivingEntity instance, Operation<Float> original) {
         return original.call(instance) * (float) getAttributeValue(Attributes.HEIGHT) * (float) getAttributeValue(Attributes.WIDTH);
     }
 
     @WrapOperation(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;isOnGround()Z"))
-    private boolean isOnGround(LivingEntity instance, Operation<Boolean> original){
+    private boolean isOnGround(LivingEntity instance, Operation<Boolean> original) {
         return original.call(instance) || instance instanceof PlayerEntity && getAttributeValue(Attributes.MAX_JUMPS) > 1 && getAttributeValue(Attributes.JUMPS) < getAttributeValue(Attributes.MAX_JUMPS);
     }
 
     @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;jump()V"))
     private void jump(CallbackInfo ci) {
-        if((Object) this instanceof PlayerEntity) {
+        if ((Object) this instanceof PlayerEntity) {
             EntityAttributeInstance jumps = getAttributeInstance(Attributes.JUMPS);
             jumps.setBaseValue(jumps.getBaseValue() + 1);
         }
     }
 
-    @Inject(method = "travelMidAir", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasNoDrag()Z"), cancellable = true)
-    private void travelMidAir(Vec3d movementInput, CallbackInfo ci, @Local(ordinal = 1) Vec3d vec3d, @Local double d){
-        if(!(this instanceof PlayerEntityExtension ext)) return;
+    @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasNoDrag()Z"), cancellable = true)
+    private void travel(Vec3d movementInput, CallbackInfo ci, @Local(ordinal = 1) Vec3d vec3d, @Local(name = "q") double q) {
+        if (!(this instanceof PlayerEntityExtension ext)) return;
         LashingPotatoHookEntity hook = ext.necessities$getLashingPotatoHook();
         if (hook != null && hook.isHooked() && !isOnGround()) {
-            this.setVelocity(vec3d.x * 0.99F, d * 0.995F, vec3d.z * 0.99F);
+            this.setVelocity(vec3d.x * 0.99F, q * 0.995F, vec3d.z * 0.99F);
             ci.cancel();
         }
     }

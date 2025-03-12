@@ -18,12 +18,13 @@ public class Attributes {
     private static RegistryEntry.Reference<EntityAttribute> register(String name, double fallback, double min, double max) {
         return Registry.registerReference(Registries.ATTRIBUTE, Main.id(name),
                 new ClampedEntityAttribute(
-                        "attribute.necessities."+name,
+                        "attribute.necessities." + name,
                         fallback,
                         min,
                         max
                 ).setTracked(true));
     }
 
-    public static void init() {}
+    public static void init() {
+    }
 }

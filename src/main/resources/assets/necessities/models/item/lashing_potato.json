@@ -2,5 +2,13 @@
   "parent": "minecraft:item/handheld",
   "textures": {
     "layer0": "necessities:item/lashing_potato"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "necessities:grappling": 1
+      },
+      "model": "necessities:item/lashing_potato_extended"
+    }
+  ]
 }

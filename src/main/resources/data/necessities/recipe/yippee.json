@@ -6,7 +6,9 @@
     "# #"
   ],
   "key": {
-    "#": "necessities:confetti_bomb"
+    "#": {
+      "item": "necessities:confetti_bomb"
+    }
   },
   "result": {
     "id": "necessities:yippee",

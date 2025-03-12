@@ -6,7 +6,9 @@
     "##"
   ],
   "key": {
-    "#": "minecraft:potato"
+    "#": {
+      "item": "minecraft:potato"
+    }
   },
   "result": {
     "id": "necessities:tiny_potato",

@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public class EntityMixin {
     @Inject(method = "updateSupportingBlockPos", at = @At("HEAD"))
-    private void updateSupportingBlockPos(boolean onGround, Vec3d movement, CallbackInfo ci){
+    private void updateSupportingBlockPos(boolean onGround, Vec3d movement, CallbackInfo ci) {
         //noinspection ConstantValue
-        if(onGround && (Object) this instanceof PlayerEntity player) player.getAttributeInstance(Attributes.JUMPS).setBaseValue(0);
+        if (onGround && (Object) this instanceof PlayerEntity player) player.getAttributeInstance(Attributes.JUMPS).setBaseValue(0);
     }
 }

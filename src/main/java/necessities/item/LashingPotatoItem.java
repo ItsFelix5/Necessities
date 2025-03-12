@@ -4,11 +4,12 @@ import necessities.entity.LashingPotatoHookEntity;
 import necessities.extension.PlayerEntityExtension;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
@@ -18,7 +19,7 @@ public class LashingPotatoItem extends Item {
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity user, Hand hand) {
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         LashingPotatoHookEntity entity = ((PlayerEntityExtension) user).necessities$getLashingPotatoHook();
         if (entity != null) {
             if (!world.isClient()) {
@@ -54,6 +55,6 @@ public class LashingPotatoItem extends Item {
             user.emitGameEvent(GameEvent.ITEM_INTERACT_START);
         }
 
-        return ActionResult.SUCCESS;
+        return TypedActionResult.success(user.getStackInHand(hand));
     }
 }

@@ -82,6 +82,9 @@
 	"display": {
 		"head": {
 			"translation": [0, 14.25, 0]
+		},
+		"gui": {
+			"rotation": [0, 180, 0]
 		}
 	}
 }

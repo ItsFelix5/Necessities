@@ -6,8 +6,12 @@
     "#"
   ],
   "key": {
-    "#": "minecraft:stick",
-    "X": "#minecraft:slabs"
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "tag": "minecraft:slabs"
+    }
   },
   "result": {
     "id": "necessities:bat",

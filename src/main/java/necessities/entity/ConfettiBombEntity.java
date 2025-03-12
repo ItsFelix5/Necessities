@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -16,20 +15,21 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
-import java.util.Optional;
+import java.util.List;
 
 public class ConfettiBombEntity extends ThrownItemEntity {
     public ConfettiBombEntity(EntityType<? extends ConfettiBombEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    public ConfettiBombEntity(World world, LivingEntity owner, ItemStack stack) {
-        super(ModEntities.CONFETTI_BOMB, owner, world, stack);
+    public ConfettiBombEntity(World world, LivingEntity owner) {
+        super(ModEntities.CONFETTI_BOMB, owner, world);
     }
 
-    public ConfettiBombEntity(World world, double x, double y, double z, ItemStack stack) {
-        super(ModEntities.CONFETTI_BOMB, x, y, z, world, stack);
+    public ConfettiBombEntity(World world, double x, double y, double z) {
+        super(ModEntities.CONFETTI_BOMB, x, y, z, world);
     }
 
     @Override
@@ -67,7 +67,8 @@ public class ConfettiBombEntity extends ThrownItemEntity {
                     vec = vec.multiply((1.0 - length / 4) * 3 / length);
                     player.addVelocity(vec);
                 } else vec = null;
-                player.networkHandler.sendPacket(new ExplosionS2CPacket(pos, Optional.ofNullable(vec), ModParticles.CONFETTI, RegistryEntry.of(Sounds.TOOT)));
+                player.networkHandler.sendPacket(new ExplosionS2CPacket(pos.x, pos.y, pos.z, 4f, List.of(), vec,
+                        Explosion.DestructionType.KEEP, ModParticles.CONFETTI, ModParticles.CONFETTI, RegistryEntry.of(Sounds.TOOT)));
             }
         }
         discard();

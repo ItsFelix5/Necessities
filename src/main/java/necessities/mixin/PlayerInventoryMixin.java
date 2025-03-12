@@ -17,16 +17,18 @@ import java.util.Collections;
 
 @Mixin(PlayerInventory.class)
 public class PlayerInventoryMixin {
-    @Shadow @Final public PlayerEntity player;
+    @Shadow
+    @Final
+    public PlayerEntity player;
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/collection/DefaultedList;ofSize(ILjava/lang/Object;)Lnet/minecraft/util/collection/DefaultedList;",
             ordinal = 2))
-    private DefaultedList<ItemStack> of(int size, Object defaultValue){
+    private DefaultedList<ItemStack> of(int size, Object defaultValue) {
         return new DefaultedList<>(new ArrayList<>(Collections.nCopies(size, (ItemStack) defaultValue)), (ItemStack) defaultValue) {
             @Override
             public ItemStack set(int index, ItemStack element) {
                 if (player.getDataTracker().get(Main.OFFHAND) || element == ItemStack.EMPTY) return super.set(index, element);
-                if(player.getWorld() instanceof ServerWorld serverWorld) player.dropStack(serverWorld, element);
+                if (player.getWorld() instanceof ServerWorld) player.dropStack(element);
                 return ItemStack.EMPTY;
             }
         };
