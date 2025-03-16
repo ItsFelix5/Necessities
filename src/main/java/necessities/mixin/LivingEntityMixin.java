@@ -3,10 +3,7 @@ package necessities.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import necessities.Attributes;
-import necessities.entity.LashingPotatoHookEntity;
-import necessities.extension.PlayerEntityExtension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -16,7 +13,6 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -70,16 +66,6 @@ public abstract class LivingEntityMixin extends Entity {
         if ((Object) this instanceof PlayerEntity) {
             EntityAttributeInstance jumps = getAttributeInstance(Attributes.JUMPS);
             jumps.setBaseValue(jumps.getBaseValue() + 1);
-        }
-    }
-
-    @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasNoDrag()Z"), cancellable = true)
-    private void travel(Vec3d movementInput, CallbackInfo ci, @Local(ordinal = 1) Vec3d vec3d, @Local(name = "q") double q) {
-        if (!(this instanceof PlayerEntityExtension ext)) return;
-        LashingPotatoHookEntity hook = ext.necessities$getLashingPotatoHook();
-        if (hook != null && hook.isHooked() && !isOnGround()) {
-            this.setVelocity(vec3d.x * 0.99F, q * 0.995F, vec3d.z * 0.99F);
-            ci.cancel();
         }
     }
 }

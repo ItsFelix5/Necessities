@@ -7,7 +7,6 @@ import necessities.Main;
 import necessities.entity.LashingPotatoHookEntity;
 import necessities.extension.PlayerEntityExtension;
 import necessities.item.ModItems;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -58,7 +57,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     public void necessities$setNoClipTicks(int ticks) {
         if (ticks == 0 && !getWorld().getBlockState(getBlockPos().add(0, 1, 0)).isAir()) return;
         noClipTicks = ticks;
-        MinecraftClient.getInstance().chunkCullingEnabled = !(noClip = noClipTicks > 0);
     }
 
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isSpectator()Z"))
