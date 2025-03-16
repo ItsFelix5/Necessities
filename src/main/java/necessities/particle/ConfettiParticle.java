@@ -15,7 +15,7 @@ public class ConfettiParticle extends SpriteBillboardParticle {
     private float rotationX, rotationY, rotationZ;
     private float offset = 0f;
 
-    protected ConfettiParticle(ClientWorld clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider provider) {
+    public ConfettiParticle(ClientWorld clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteProvider provider) {
         super(clientWorld, x, y, z, velocityX, velocityY, velocityZ);
         setSprite(provider);
 

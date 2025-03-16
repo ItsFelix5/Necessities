@@ -1,6 +1,6 @@
 package necessities.mixin;
 
-import necessities.Main;
+import necessities.extension.PlayerEntityExtension;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -27,7 +27,7 @@ public class PlayerInventoryMixin {
         return new DefaultedList<>(new ArrayList<>(Collections.nCopies(size, (ItemStack) defaultValue)), (ItemStack) defaultValue) {
             @Override
             public ItemStack set(int index, ItemStack element) {
-                if (player.getDataTracker().get(Main.OFFHAND) || element == ItemStack.EMPTY) return super.set(index, element);
+                if (((PlayerEntityExtension) player).necessities$getOffhand() || element == ItemStack.EMPTY) return super.set(index, element);
                 if (player.getWorld() instanceof ServerWorld) player.dropStack(element);
                 return ItemStack.EMPTY;
             }

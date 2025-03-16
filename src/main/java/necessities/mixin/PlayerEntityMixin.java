@@ -3,19 +3,20 @@ package necessities.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import necessities.Attributes;
-import necessities.Main;
 import necessities.entity.LashingPotatoHookEntity;
 import necessities.extension.PlayerEntityExtension;
+import necessities.item.DismemberPayload;
 import necessities.item.ModItems;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -38,6 +39,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     private LashingPotatoHookEntity potatoHook;
     @Unique
     private Text name;
+    @Unique
+    private boolean offhand = true;
+
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -111,11 +115,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         if (name != null) cir.setReturnValue(name);
     }
 
-    @Inject(method = "initDataTracker", at = @At("TAIL"))
-    private void initDataTracker(DataTracker.Builder builder, CallbackInfo ci) {
-        builder.add(Main.OFFHAND, true);
-    }
-
     @WrapOperation(method = "attack", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/entity/player/PlayerEntity;getKnockbackAgainst(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;)F"))
     private float getKnockbackAgainst(PlayerEntity instance, Entity entity, DamageSource damageSource, Operation<Float> original) {
@@ -136,10 +135,21 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if(source.getWeaponStack() != null && source.getWeaponStack().isOf(ModItems.AXE_OF_DISMEMBERING) && getHealth() - amount <= 0) {
-            getDataTracker().set(Main.OFFHAND, false);
+            offhand = false;
+            if(!getWorld().isClient) getWorld().getPlayers().forEach(player-> ServerPlayNetworking.send((ServerPlayerEntity) player, new DismemberPayload(uuid.toString())));
             dropStack(getOffHandStack());
             getInventory().removeStack(PlayerInventory.OFF_HAND_SLOT);
             cir.setReturnValue(true);
         }
+    }
+
+    @Override
+    public boolean necessities$getOffhand() {
+        return offhand;
+    }
+
+    @Override
+    public void necessities$setOffhand(boolean offhand) {
+        this.offhand = offhand;
     }
 }

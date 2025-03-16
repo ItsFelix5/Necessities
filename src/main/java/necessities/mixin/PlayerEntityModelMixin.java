@@ -1,6 +1,6 @@
 package necessities.mixin;
 
-import necessities.Main;
+import necessities.extension.PlayerEntityExtension;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
@@ -23,7 +23,9 @@ public class PlayerEntityModelMixin extends BipedEntityModel<PlayerEntity> {
 
     @Inject(method = "setAngles(Lnet/minecraft/entity/LivingEntity;FFFFF)V", at = @At("TAIL"))
     private void setAngles(LivingEntity livingEntity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch, CallbackInfo ci) {
-        this.leftArm.visible &= livingEntity.getDataTracker().get(Main.OFFHAND);
-        this.leftSleeve.visible &= livingEntity.getDataTracker().get(Main.OFFHAND);
+        if(!(livingEntity instanceof PlayerEntityExtension ext)) return;
+        boolean offhand = ext.necessities$getOffhand();
+        this.leftArm.visible &= offhand;
+        this.leftSleeve.visible &= offhand;
     }
 }

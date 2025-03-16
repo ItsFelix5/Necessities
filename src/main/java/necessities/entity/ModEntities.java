@@ -1,8 +1,6 @@
 package necessities.entity;
 
 import necessities.Main;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -32,12 +30,6 @@ public class ModEntities {
                 Main.id(name),
                 builder.build(name)
         );
-    }
-
-    public static void clientInit() {
-        EntityRendererRegistry.register(ModEntities.CONFETTI_BOMB, FlyingItemEntityRenderer::new);
-        EntityRendererRegistry.register(ModEntities.TOMATO, FlyingItemEntityRenderer::new);
-        EntityRendererRegistry.register(ModEntities.LASHING_POTATO_HOOK, LashingPotatoHookEntityRenderer::new);
     }
 
     public static void init() {

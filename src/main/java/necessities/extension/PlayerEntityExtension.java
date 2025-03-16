@@ -8,4 +8,6 @@ public interface PlayerEntityExtension {
     LashingPotatoHookEntity necessities$getLashingPotatoHook();
     void necessities$setLashingPotatoHook(LashingPotatoHookEntity hook);
     void necessities$setName(Text name);
+    boolean necessities$getOffhand();
+    void necessities$setOffhand(boolean offhand);
 }

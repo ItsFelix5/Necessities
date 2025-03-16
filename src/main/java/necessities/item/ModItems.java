@@ -1,15 +1,11 @@
 package necessities.item;
 
 import necessities.Main;
-import necessities.extension.PlayerEntityExtension;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -85,13 +81,5 @@ public class ModItems {
             itemGroup.add(BAT);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register((itemGroup) -> itemGroup.add(TOMATO));
-
-        ModelPredicateProviderRegistry.register(YIPPEE, Main.id("on_head"),
-                (stack, world, entity, seed) -> (entity != null && entity.getEquippedStack(EquipmentSlot.HEAD) == stack) ? 1.0F : 0.0F);
-
-        ModelPredicateProviderRegistry.register(LASHING_POTATO, Main.id("grappling"),
-                (stack, world, entity, seed) -> (entity instanceof PlayerEntity player && ((PlayerEntityExtension) player).necessities$getLashingPotatoHook() != null
-                        && player.getMainHandStack() == stack) ? 1.0F : 0.0F);
-
     }
 }
