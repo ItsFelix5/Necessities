@@ -10,7 +10,8 @@
     "LivingEntityMixin",
     "PlayerEntityMixin",
     "PlayerInventoryMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
     "ExplosionMixin",
