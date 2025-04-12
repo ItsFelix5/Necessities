@@ -58,7 +58,7 @@ public class ModItems {
                     .attributeModifiers(AttributeModifiersComponent.builder()
                             .add(
                                     EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE,
-                                    new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, 6, EntityAttributeModifier.Operation.ADD_VALUE),
+                                    new EntityAttributeModifier(Item.BASE_ATTACK_SPEED_MODIFIER_ID, 10, EntityAttributeModifier.Operation.ADD_VALUE),
                                     AttributeModifierSlot.MAINHAND
                             )
                             .build())

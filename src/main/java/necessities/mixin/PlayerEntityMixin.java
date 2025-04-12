@@ -71,18 +71,22 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
     private void tickMovement(CallbackInfo ci) {
-        if (potatoHook == null || !potatoHook.isHooked()) return;
-        this.onLanding();
+        if (potatoHook != null && potatoHook.isHooked()) this.onLanding();
         if (!this.isLogicalSideForUpdatingMovement()) return;
 
+        for (Entity entity:getPassengersDeep()) {
+            if(entity instanceof LashingPotatoHookEntity potato) addVelocity(new Vec3d(potato.getOwner().getX() - getX(), potato.getOwner().getY() - getY(), potato.getOwner().getZ() - getZ()).normalize());
+        }
+
+        if (potatoHook == null || !potatoHook.isHooked()) return;
         if (potatoHook.hookedEntity != null) {
             if (squaredDistanceTo(potatoHook.hookedEntity) <= 9) {
                 this.addVelocity(this.getVelocity().multiply(-1));
                 potatoHook.remove(RemovalReason.DISCARDED);
                 return;
             }
-            if (potatoHook.hookedEntity instanceof LivingEntity living && living.getMaxHealth() <= getMaxHealth()) {
-                potatoHook.hookedEntity.addVelocity(new Vec3d(getX() - potatoHook.getX(), getY() - potatoHook.getY(), getZ() - potatoHook.getZ()).normalize().multiply(1.2));
+            if (potatoHook.hookedEntity instanceof LivingEntity living && !living.isInvulnerable() && living.getMaxHealth() <= getMaxHealth()) {
+                potatoHook.hookedEntity.addVelocity(new Vec3d(getX() - potatoHook.getX(), getY() - potatoHook.getY(), getZ() - potatoHook.getZ()).normalize());
                 return;
             }
         }
@@ -119,11 +123,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
             target = "Lnet/minecraft/entity/player/PlayerEntity;getKnockbackAgainst(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;)F"))
     private float getKnockbackAgainst(PlayerEntity instance, Entity entity, DamageSource damageSource, Operation<Float> original) {
         if (getWeaponStack().isOf(ModItems.BAT)) {
-            float strength = (float) (Math.pow(getVelocity().length() + entity.getVelocity().length(), 2) * 2);
+            float strength = (float) getVelocity().length() + (float) entity.getVelocity().length() * 2F;
 
             float radPitch = getPitch() * MathHelper.RADIANS_PER_DEGREE;
             float radYaw = getYaw() * MathHelper.RADIANS_PER_DEGREE;
 
+            entity.onLanding();
             entity.setVelocity(-MathHelper.cos(radPitch) * MathHelper.sin(radYaw) * strength,
                     -MathHelper.sin(radPitch) * strength,
                     MathHelper.cos(radPitch) * MathHelper.cos(radYaw) * strength);
