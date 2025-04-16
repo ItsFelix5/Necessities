@@ -20,7 +20,7 @@ public class ModEntities {
                     .disableSaving()
                     .disableSummon()
                     .dimensions(0.5F, 0.5F)
-                    .maxTrackingRange(4)
+                    .maxTrackingRange(10)
                     .trackingTickInterval(5)
     );
 
