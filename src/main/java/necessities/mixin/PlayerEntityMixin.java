@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -72,7 +73,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
     @Inject(method = "tickMovement", at = @At("TAIL"))
     private void tickMovement(CallbackInfo ci) {
         if (potatoHook != null && potatoHook.isHooked()) this.onLanding();
-        if (!this.isLogicalSideForUpdatingMovement()) return;
+        if (!this.isLogicalSideForUpdatingMovement()) {
+            if (potatoHook != null && potatoHook.hookedEntity != null && (potatoHook.hookedEntity instanceof LivingEntity living && !living.isInvulnerable() && living.getMaxHealth() <= getMaxHealth()))
+                potatoHook.hookedEntity.addVelocity(new Vec3d(getX() - potatoHook.getX(), getY() - potatoHook.getY(), getZ() - potatoHook.getZ()).normalize());
+            return;
+        }
 
         for (Entity entity:getPassengersDeep()) {
             if(entity instanceof LashingPotatoHookEntity potato) addVelocity(new Vec3d(potato.getOwner().getX() - getX(), potato.getOwner().getY() - getY(), potato.getOwner().getZ() - getZ()).normalize());
@@ -85,7 +90,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
                 potatoHook.remove(RemovalReason.DISCARDED);
                 return;
             }
-            if (potatoHook.hookedEntity instanceof LivingEntity living && !living.isInvulnerable() && living.getMaxHealth() <= getMaxHealth()) {
+            if (potatoHook.hookedEntity instanceof LivingEntity living && !living.isInvulnerable() && living.isPartOfGame() && !(living instanceof MobEntity mob && mob.isAiDisabled()) && living.getMaxHealth() <= getMaxHealth()) {
                 potatoHook.hookedEntity.addVelocity(new Vec3d(getX() - potatoHook.getX(), getY() - potatoHook.getY(), getZ() - potatoHook.getZ()).normalize());
                 return;
             }
@@ -93,10 +98,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         Vec3d vec3d = potatoHook.getPos().subtract(this.getEyePos());
         float g = potatoHook.getLength();
         double d = vec3d.length();
-        if (d > g) {
-            double e = d / g * 0.1;
-            this.addVelocity(vec3d.multiply(1.0 / d).multiply(e, e * 1.1, e));
-        }
+        double e = d / g * 0.1;
+        this.addVelocity(vec3d.multiply(1.0 / d).multiply(e, e * 1.2, e));
     }
 
     @Override

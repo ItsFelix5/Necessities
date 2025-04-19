@@ -17,7 +17,6 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
 
 public class LashingPotatoHookEntity extends ProjectileEntity {
     public static final TrackedData<Boolean> HOOKED = DataTracker.registerData(LashingPotatoHookEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
@@ -55,7 +54,7 @@ public class LashingPotatoHookEntity extends ProjectileEntity {
     public void tick() {
         super.tick();
         PlayerEntity playerEntity = this.getOwner();
-        if (this.getWorld().isClient() || !playerEntity.isRemoved() && playerEntity.isAlive() && playerEntity.getMainHandStack().isOf(ModItems.LASHING_POTATO)) {
+        if (this.getWorld().isClient() || playerEntity != null && !playerEntity.isRemoved() && playerEntity.isAlive() && playerEntity.getMainHandStack().isOf(ModItems.LASHING_POTATO)) {
             HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
             if (hitResult.getType() != HitResult.Type.MISS) {
                 this.onCollision(hitResult);
@@ -73,6 +72,10 @@ public class LashingPotatoHookEntity extends ProjectileEntity {
 
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
+        if(getOwner() == null) {
+            discard();
+            return;
+        }
         hookedEntity = entityHitResult.getEntity();
         this.setVelocity(Vec3d.ZERO);
         this.setHooked(true);
@@ -82,6 +85,10 @@ public class LashingPotatoHookEntity extends ProjectileEntity {
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
+        if(getOwner() == null) {
+            discard();
+            return;
+        }
         super.onBlockHit(blockHitResult);
         this.setVelocity(Vec3d.ZERO);
         this.setHooked(true);
@@ -124,17 +131,17 @@ public class LashingPotatoHookEntity extends ProjectileEntity {
 
     @Override
     public void remove(Entity.RemovalReason reason) {
-        ((PlayerEntityExtension) getOwner()).necessities$setLashingPotatoHook(null);
+        if(getOwner() != null) ((PlayerEntityExtension) getOwner()).necessities$setLashingPotatoHook(null);
         super.remove(reason);
     }
 
     @Override
     public void onRemoved() {
-        ((PlayerEntityExtension) getOwner()).necessities$setLashingPotatoHook(null);
+        if(getOwner() != null) ((PlayerEntityExtension) getOwner()).necessities$setLashingPotatoHook(null);
     }
 
     @Override
-    public @NotNull PlayerEntity getOwner() {
+    public PlayerEntity getOwner() {
         return (PlayerEntity) super.getOwner();
     }
 
