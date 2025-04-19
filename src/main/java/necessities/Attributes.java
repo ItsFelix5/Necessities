@@ -7,7 +7,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
 
 public class Attributes {
-    public static final RegistryEntry.Reference<EntityAttribute> HEIGHT = register("height", 1.0, 0.01, 32);
+    public static final RegistryEntry.Reference<EntityAttribute> HEIGHT = register("height", 1.0, 0.05, 32);
     public static final RegistryEntry.Reference<EntityAttribute> WIDTH = register("width", 1.0, 0.01, 32);
 
     public static final RegistryEntry.Reference<EntityAttribute> ROLL = register("roll", 0, -180.0, 180.0);
